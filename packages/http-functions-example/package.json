@@ -1,0 +1,45 @@
+{
+  "name": "http-functions-example",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "private": true,
+  "author": {
+    "name": "Shahar Talmi",
+    "email": "shahart@wix.com"
+  },
+  "scripts": {
+    "postinstall": "node patch-yoshi.js",
+    "start": "yoshi start",
+    "precommit": "lint-staged",
+    "pretest": "yoshi build",
+    "test": "yoshi test",
+    "posttest": "yoshi lint",
+    "release": "yoshi release"
+  },
+  "dependencies": {
+    "http-functions-express": "^1.0.0",
+    "react": "^16.5.1",
+    "react-dom": "^16.5.1"
+  },
+  "devDependencies": {
+    "@types/express": "~4.0.0",
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^8.0.0",
+    "@types/prop-types": "~15.5.0",
+    "@types/react": "~15.6.0",
+    "@types/react-dom": "~15.5.0",
+    "chai": "^4.1.2",
+    "http-functions-webpack": "^1.0.0",
+    "husky": "~0.14.0",
+    "lint-staged": "^7.2.2",
+    "puppeteer": "^1.1.0",
+    "typescript": "~3.0.1",
+    "yoshi": "^3.0.0"
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx,scss,less}": "yoshi lint"
+  },
+  "yoshi": {
+    "hmr": "auto"
+  }
+}

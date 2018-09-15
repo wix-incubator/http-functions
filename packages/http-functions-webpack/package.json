@@ -1,0 +1,49 @@
+{
+  "name": "http-functions-webpack",
+  "version": "1.0.1",
+  "license": "UNLICENSED",
+  "author": {
+    "name": "Shahar Talmi",
+    "email": "shahart@wix.com"
+  },
+  "main": "dist/src/index.js",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "start": "yoshi start",
+    "precommit": "lint-staged",
+    "pretest": "yoshi build",
+    "test": "yoshi test",
+    "posttest": "yoshi lint",
+    "release": "yoshi release"
+  },
+  "devDependencies": {
+    "@types/chai": "~4.0.0",
+    "@types/mocha": "~2.2.0",
+    "@types/node": "^8.0.0",
+    "body-parser": "^1.18.3",
+    "chai": "~4.1.0",
+    "express": "^4.16.3",
+    "http-functions-express": "^1.0.0",
+    "husky": "~0.14.0",
+    "lint-staged": "^7.2.2",
+    "memory-fs": "^0.4.1",
+    "node-fetch": "^2.2.0",
+    "typescript": "~3.0.1",
+    "webpack": "^4.19.0",
+    "yoshi": "^3.0.0"
+  },
+  "lint-staged": {
+    "*.{js,ts}": "yoshi lint"
+  },
+  "yoshi": {
+    "hmr": "auto"
+  },
+  "dependencies": {
+    "loader-utils": "^1.1.0"
+  }
+}

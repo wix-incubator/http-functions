@@ -1,0 +1,12 @@
+{
+  "name": "http-functions",
+  "private": true,
+  "scripts": {
+    "test": "lerna run test",
+    "postinstall": "lerna bootstrap",
+    "release": "lerna run release"
+  },
+  "devDependencies": {
+    "lerna": "^3.3.2"
+  }
+}
