@@ -13,7 +13,7 @@ const patch = `
             },
           },
           {
-            loader: 'ts-loader?{"logLevel":"warn"}',
+            loader: 'ts-loader',
             options: {
               compilerOptions: {
                 module: 'commonjs',
