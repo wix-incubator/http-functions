@@ -1,6 +1,5 @@
 import * as path from 'path';
 import * as express from 'express';
-import * as bodyParser from 'body-parser';
 import { httpFunctions } from 'http-functions-express';
 
 const html = `
@@ -18,7 +17,7 @@ const html = `
 
 const folder = path.join(__dirname, 'backend');
 export default express()
-  .use(bodyParser.json())
+  .use(express.json())
   .use('/api', httpFunctions(folder, /\.web\.(j|t)s$/))
   .use('/', (req, res) => res.send(html))
   .listen(process.env.PORT || 3000);

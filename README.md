@@ -62,11 +62,10 @@ In your server code load http-functions express middleware:
 ```js
 import * as path from 'path';
 import * as express from 'express';
-import * as bodyParser from 'body-parser';
 import { httpFunctions } from 'http-functions-express';
 
 express()
-  .use(bodyParser.json())
+  .use(express.json())
   .use('/api', httpFunctions(path.join(__dirname, 'backend')), /\.web\.js$/)
   .listen(3000);
 ```

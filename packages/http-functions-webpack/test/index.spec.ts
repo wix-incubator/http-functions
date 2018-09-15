@@ -1,7 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as express from 'express';
-import * as bodyParser from 'body-parser';
 import { expect } from 'chai';
 import compiler from './compiler';
 import { httpFunctions } from 'http-functions-express';
@@ -17,7 +16,7 @@ describe('http-functions-webpack', () => {
   beforeEach(() => {
     const folder = path.resolve(__dirname, '../dist/test/backend');
     server = express()
-      .use(bodyParser.json())
+      .use(express.json())
       .use('/api', httpFunctions(folder, /\.web\.js$/))
       .listen(3000);
   });

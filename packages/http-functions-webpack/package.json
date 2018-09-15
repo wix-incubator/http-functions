@@ -25,7 +25,6 @@
     "@types/chai": "~4.0.0",
     "@types/mocha": "~2.2.0",
     "@types/node": "^8.0.0",
-    "body-parser": "^1.18.3",
     "chai": "~4.1.0",
     "express": "^4.16.3",
     "http-functions-express": "^1.0.3",
