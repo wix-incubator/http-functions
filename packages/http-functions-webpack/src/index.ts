@@ -4,7 +4,7 @@ import { getOptions } from 'loader-utils';
 
 export default function loader(source) {
   const { endpoint } = getOptions(this);
-  const fileName = path.basename(this.resourcePath).replace(/\.(j|t)s$/, '');
+  const fileName = path.basename(this.resourcePath).replace(/\.(js|ts)$/, '');
   const sandbox = { ...global, exports: {}, require };
   vm.runInNewContext(source, sandbox);
 

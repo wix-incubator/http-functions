@@ -5,7 +5,7 @@ export function httpFunctions(folder, test) {
   const files = fs
     .readdirSync(folder)
     .filter(fileName => fileName.match(test))
-    .map(fileName => fileName.replace(/\.(j|t)s$/, ''))
+    .map(fileName => fileName.replace(/\.(js|ts)$/, ''))
     .reduce(
       (obj, fileName) => ({
         ...obj,
