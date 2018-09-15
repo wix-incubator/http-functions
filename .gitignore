@@ -8,5 +8,4 @@ maven
 .idea
 *.iml
 test/e2e/screenshots
-package-lock.json
 .yo-rc.json
