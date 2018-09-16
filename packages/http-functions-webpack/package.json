@@ -43,6 +43,8 @@
     "hmr": "auto"
   },
   "dependencies": {
+    "@babel/parser": "^7.0.0",
+    "@babel/traverse": "^7.0.0",
     "loader-utils": "^1.1.0"
   }
 }

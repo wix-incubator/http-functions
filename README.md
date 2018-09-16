@@ -111,4 +111,34 @@ console.log(await sign('the message'));
 ```
 On the server it is a simple function call. On the client it is a seamless http-function call.
 
-Note: the `.web.js` extension and the `backend` folder are just a configuration setup we use as best practice to make it clear that this file contains http functions. It is not mandatory in any way and you can decide on your own convention if you like.
+## Notes
+
+ * The `.web.js` extension and the `backend` folder are just a configuration setup we use as best practice to make it clear that this file contains http functions. It is not mandatory in any way and you can decide on your own convention if you like.
+ * The generated client side code uses `fetch` to make the http calls to the server. Make sure to add a `fetch` polyfill such as ()[] if you need to support old browsers.
+ * Thanks to webpack chaining mechanism, it is easy to support http functions in typescript, for example. Just do something like:
+```js
+{
+  rules: [
+    {
+      test: /\.web\.(js|ts)$/,
+      use: [
+        {
+          loader: 'http-functions-webpack',
+          options: {
+            endpoint: '/api',
+          },
+        },
+        {
+          loader: 'ts-loader'
+          options: {
+            compilerOptions: {
+              allowJs: true
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+(webpack loaders are executed in reverse order, that's why the `ts-loader` comes last)

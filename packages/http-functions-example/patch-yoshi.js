@@ -1,4 +1,5 @@
 const fs = require('fs');
+
 const fileName = require.resolve('yoshi/config/webpack.config.common.js');
 const content = fs.readFileSync(fileName).toString();
 const patch = `
@@ -16,7 +17,6 @@ const patch = `
             loader: 'ts-loader',
             options: {
               compilerOptions: {
-                module: 'commonjs',
                 allowJs: true,
               },
             },

@@ -39,6 +39,9 @@
   "lint-staged": {
     "*.{js,ts,tsx,scss,less}": "yoshi lint"
   },
+  "eslintConfig": {
+    "extends": "yoshi"
+  },
   "yoshi": {
     "hmr": "auto"
   }
