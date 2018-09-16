@@ -23,7 +23,7 @@ export function httpFunctions(folder, test) {
     } else if (!Array.isArray(req.body.args)) {
       next(new Error('invalid arguments'));
     } else {
-      fn.apply({ req }, req.body.args)
+      fn.apply({ req, res }, req.body.args)
         .then(result => res.send({ result }))
         .catch(error => next(error));
     }

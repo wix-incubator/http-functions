@@ -63,4 +63,10 @@ describe('http-functions-express', () => {
     const { data } = await invoke('context.web', 'headers', [], headers);
     expect(data.result).to.include(headers);
   });
+
+  it('should pass res on the context', async () => {
+    const { status, data } = await invoke('context.web', 'status', [404]);
+    expect(status).to.eql(404);
+    expect(data).to.eql({ result: 'status 404' });
+  });
 });

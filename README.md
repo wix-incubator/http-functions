@@ -114,7 +114,8 @@ On the server it is a simple function call. On the client it is a seamless http-
 ## Notes
 
  * The `.web.js` extension and the `backend` folder are just a configuration setup we use as best practice to make it clear that this file contains http functions. It is not mandatory in any way and you can decide on your own convention if you like.
- * The generated client side code uses `fetch` to make the http calls to the server. Make sure to add a `fetch` polyfill such as ()[] if you need to support old browsers.
+ * The generated client side code uses `fetch` to make the http calls to the server. Make sure to add a `fetch` polyfill such as [whatwg-fetch](https://github.com/github/fetch) if you need to support old browsers.
+ * The express request and response objects are still available for you as `this.req` and `this.res` in the function. This can be useful in case you want for example to access the request headers via `this.req.headers` or in case you want to change response status via `this.res.status(404)`.
  * Thanks to webpack chaining mechanism, it is easy to support http functions in typescript, for example. Just do something like:
 ```js
 {
