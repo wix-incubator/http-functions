@@ -38,7 +38,7 @@ console.log(sign('the message'));
 ```
 Easy... Right?
 
-**BUT** if you want to use this functionality on the server so you need to:
+**BUT** if you want to use this functionality on the client you need to:
  * Create an API endpoint in your server for this new API.
  * Call this method from the new API handler function.
  * Create some method on the client which will make the API call.
