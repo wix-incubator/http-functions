@@ -78,9 +78,9 @@ In your webpack config add the http-functions loader:
     {
       test: /\.web\.js$/,
       use: {
-        loader: path.resolve(__dirname, '../dist/src/index.js'),
+        loader: 'http-functions-webpack',
         options: {
-          endpoint: 'http://localhost:3000/api'
+          endpoint: '/api'
         }
       }
     }
