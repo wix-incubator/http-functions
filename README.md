@@ -111,4 +111,4 @@ console.log(await sign('the message'));
 ```
 On the server it is a simple function call. On the client it is a seamless http-function call.
 
-Note: the `.web.js` extension is just a best practice we use to make it clear that this file contains http functions. It is not mandatory in any way and you can decide on your own convention if you like.
+Note: the `.web.js` extension and the `backend` folder are just a configuration setup we use as best practice to make it clear that this file contains http functions. It is not mandatory in any way and you can decide on your own convention if you like.
