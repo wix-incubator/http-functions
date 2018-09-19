@@ -19,7 +19,12 @@ describe('http-functions-express', () => {
     const folder = path.resolve(__dirname, '../dist/test/backend');
     server = express()
       .use(express.json())
-      .use('/_functions', httpFunctions(folder, /\.web\.js$/))
+      .use(
+        '/_functions',
+        httpFunctions(folder, /\.web\.js$/, (req, res) => {
+          return { yo: req.headers.yo };
+        }),
+      )
       .listen(3000);
   });
 
@@ -48,6 +53,16 @@ describe('http-functions-express', () => {
     expect(data).to.eql(httpFunctionResult(new Error('no such method')));
   });
 
+  it('should get error if not post method', async () => {
+    const { status, data } = await axios.put(
+      `http://localhost:3000/_functions/math.web/divide`,
+      { args: [10, 2] },
+      { validateStatus: () => true },
+    );
+    expect(status).to.eql(404);
+    expect(data).to.eql(httpFunctionResult(new Error('no such method')));
+  });
+
   it('should get error if args is not an array', async () => {
     const { status, data } = await invoke('math.web', 'sum', 0);
     expect(status).to.eql(400);
@@ -66,8 +81,26 @@ describe('http-functions-express', () => {
     expect(data).to.eql(httpFunctionResult('status 201'));
   });
 
+  it('should pass custom context', async () => {
+    const headers = { yo: 'hello' };
+    const { data } = await invoke('context.web', 'yo', [], headers);
+    expect(data).to.eql(httpFunctionResult('hello'));
+  });
+
   it('should allow function to handle response sending', async () => {
     const { data } = await invoke('context.web', 'send', ['hello']);
     expect(data).to.eql('hello');
+  });
+
+  it('should send logs back to client', async () => {
+    const { data } = await invoke('context.web', 'log', ['hello']);
+    expect(data).to.eql(
+      httpFunctionResult('hello', {
+        logs: [
+          { label: 'log', chunk: 'log: hello' },
+          { label: 'error', chunk: 'err: hello' },
+        ],
+      }),
+    );
   });
 });

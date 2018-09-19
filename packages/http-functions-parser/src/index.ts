@@ -1,5 +1,23 @@
-function parse(data) {
+import { parse as parseAnsiColor } from 'ansicolor';
+
+function colorize(str) {
+  const args = parseAnsiColor(str).asChromeConsoleLogArguments;
+  if (args.length === 2 && args[1] === '') {
+    return [str];
+  } else {
+    return args;
+  }
+}
+
+function parse(data, fileName, methodName) {
   if (data.type === 'httpFunctionResult') {
+    if (data.logs.length > 0) {
+      console.groupCollapsed(`http function ${fileName}/${methodName}`);
+      data.logs.forEach(log => {
+        console[log.label](...colorize(log.chunk));
+      });
+      console.groupEnd();
+    }
     return data.result;
   } else {
     return data;
@@ -23,9 +41,9 @@ export function httpFunctionsFetcher(endpoint, fileName, methodName) {
       data = await response.json();
     }
     if (response.status >= 400) {
-      return Promise.reject(parse(data));
+      return Promise.reject(parse(data, fileName, methodName));
     } else {
-      return parse(data);
+      return parse(data, fileName, methodName);
     }
   };
 }

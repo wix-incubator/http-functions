@@ -36,5 +36,8 @@
   },
   "yoshi": {
     "hmr": "auto"
+  },
+  "dependencies": {
+    "ansicolor": "^1.1.77"
   }
 }
