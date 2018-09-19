@@ -7,7 +7,7 @@ describe('http-functions-example', () => {
   before(async function() {
     process.env.PORT = String(4000 + Math.floor(Math.random() * 100));
     server = require('../index');
-    browser = await puppeteer.launch();
+    browser = await puppeteer.launch({ args: ['--no-sandbox'] });
   });
 
   after(function() {

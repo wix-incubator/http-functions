@@ -1,0 +1,6 @@
+1) serialize exceptions so stack is visible on client (use errio node module)
+2) think about serializing things like dates, regexp, etc.
+3) think about how to handle execution timeout
+4) think if we want to handle permissions in this level, or is it higher level
+5) adjust implementation to use xhr instead of fetch
+6) need to think about sanitizing stack traces (both in exception and console.trace)
