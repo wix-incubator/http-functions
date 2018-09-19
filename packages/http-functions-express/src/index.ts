@@ -22,8 +22,8 @@ export function httpFunctions(folder, test) {
       {},
     );
 
-  return async (req, res, next) => {
-    const { fileName, methodName } = req.body;
+  return async (req, res) => {
+    const [, fileName, methodName] = req.path.split('/');
     const fn = files[fileName] && files[fileName][methodName];
 
     if (!fn) {

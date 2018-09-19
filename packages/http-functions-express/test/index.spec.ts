@@ -6,12 +6,8 @@ import { httpFunctions, httpFunctionResult } from '../src';
 
 function invoke(fileName, methodName, args, headers?) {
   return axios.post(
-    'http://localhost:3000/api',
-    {
-      fileName,
-      methodName,
-      args,
-    },
+    `http://localhost:3000/_functions/${fileName}/${methodName}`,
+    { args },
     { validateStatus: () => true, headers },
   );
 }
@@ -23,7 +19,7 @@ describe('http-functions-express', () => {
     const folder = path.resolve(__dirname, '../dist/test/backend');
     server = express()
       .use(express.json())
-      .use('/api', httpFunctions(folder, /\.web\.js$/))
+      .use('/_functions', httpFunctions(folder, /\.web\.js$/))
       .listen(3000);
   });
 

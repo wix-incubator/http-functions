@@ -10,7 +10,7 @@ const patch = `
           {
             loader: 'http-functions-webpack',
             options: {
-              endpoint: '/api',
+              endpoint: '/_functions',
             },
           },
           {

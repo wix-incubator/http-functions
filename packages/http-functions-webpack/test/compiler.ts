@@ -19,7 +19,7 @@ export default (fixture): Promise<string> => {
           use: {
             loader: path.resolve(__dirname, '../dist/src/index.js'),
             options: {
-              endpoint: 'http://localhost:3000/api',
+              endpoint: 'http://localhost:3000/_functions',
             },
           },
         },

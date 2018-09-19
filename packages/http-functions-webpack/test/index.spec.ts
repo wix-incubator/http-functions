@@ -17,7 +17,7 @@ describe('http-functions-webpack', () => {
     const folder = path.resolve(__dirname, '../dist/test/backend');
     server = express()
       .use(express.json())
-      .use('/api', httpFunctions(folder, /\.web\.js$/))
+      .use('/_functions', httpFunctions(folder, /\.web\.js$/))
       .listen(3000);
   });
 

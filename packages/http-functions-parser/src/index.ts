@@ -1,15 +1,16 @@
 function parse(data) {
   if (data.type === 'httpFunctionResult') {
     return data.result;
+  } else {
+    return data;
   }
-  return data;
 }
 
 export function httpFunctionsFetcher(endpoint, fileName, methodName) {
   return async function(...args) {
-    const response = await fetch(endpoint, {
+    const response = await fetch(`${endpoint}/${fileName}/${methodName}`, {
       method: 'POST',
-      body: JSON.stringify({ fileName, methodName, args }),
+      body: JSON.stringify({ args }),
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
@@ -23,7 +24,8 @@ export function httpFunctionsFetcher(endpoint, fileName, methodName) {
     }
     if (response.status >= 400) {
       return Promise.reject(parse(data));
+    } else {
+      return parse(data);
     }
-    return parse(data);
   };
 }

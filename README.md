@@ -66,7 +66,7 @@ import { httpFunctions } from 'http-functions-express';
 
 express()
   .use(express.json())
-  .use('/api', httpFunctions(path.join(__dirname, 'backend')), /\.web\.js$/)
+  .use('/_functions', httpFunctions(path.join(__dirname, 'backend')), /\.web\.js$/)
   .listen(3000);
 ```
 Now every method in every file you have in `backend` folder with `.web.js` extension will automatically have an API which the middleware can invoke.
@@ -80,7 +80,7 @@ In your webpack config add the http functions loader:
       use: {
         loader: 'http-functions-webpack',
         options: {
-          endpoint: '/api'
+          endpoint: '/_functions'
         }
       }
     }
@@ -126,7 +126,7 @@ On the server it is a simple function call. On the client it is a seamless http 
         {
           loader: 'http-functions-webpack',
           options: {
-            endpoint: '/api',
+            endpoint: '/_functions',
           },
         },
         {
