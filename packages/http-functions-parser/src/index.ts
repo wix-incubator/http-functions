@@ -26,24 +26,35 @@ function parse(data, fileName, methodName) {
 
 export function httpFunctionsFetcher(endpoint, fileName, methodName) {
   return async function(...args) {
-    const response = await fetch(`${endpoint}/${fileName}/${methodName}`, {
-      method: 'POST',
-      body: JSON.stringify({ args }),
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
+    return new Promise(function(resolve, reject) {
+      const xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+          let data;
+          if (
+            (xhr.getResponseHeader('Content-Type') || '').indexOf('json') === -1
+          ) {
+            data = xhr.responseText;
+          } else {
+            data = JSON.parse(xhr.responseText);
+          }
+          if (xhr.status >= 400) {
+            reject(parse(data, fileName, methodName));
+          } else {
+            resolve(parse(data, fileName, methodName));
+          }
+        }
+      };
+
+      xhr.onerror = function(e) {
+        reject(e);
+      };
+
+      xhr.withCredentials = true;
+      xhr.open('POST', `${endpoint}/${fileName}/${methodName}`, true);
+      xhr.setRequestHeader('Accept', 'application/json');
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.send(JSON.stringify({ args }));
     });
-    let data;
-    if (response.headers.get('Content-Type').indexOf('json') === -1) {
-      data = await response.text();
-    } else {
-      data = await response.json();
-    }
-    if (response.status >= 400) {
-      return Promise.reject(parse(data, fileName, methodName));
-    } else {
-      return parse(data, fileName, methodName);
-    }
   };
 }

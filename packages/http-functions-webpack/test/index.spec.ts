@@ -5,9 +5,12 @@ import { Writable } from 'stream';
 import { expect } from 'chai';
 import compiler from './compiler';
 import { httpFunctions } from 'http-functions-express';
-import fetch from 'node-fetch';
+import { JSDOM } from 'jsdom';
 
 declare const global: any;
+const { XMLHttpRequest } = new JSDOM('', {
+  url: 'http://localhost:3000/',
+}).window;
 
 function inMemoryStream(label, arr) {
   return new Writable({
@@ -33,7 +36,7 @@ async function hookConsole(fn) {
 describe('http-functions-webpack', () => {
   let server, bundle;
 
-  before(() => (global.fetch = fetch));
+  before(() => (global.XMLHttpRequest = XMLHttpRequest));
 
   beforeEach(() => {
     const folder = path.resolve(__dirname, '../dist/test/backend');
