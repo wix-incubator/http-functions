@@ -23,26 +23,14 @@ function getExports(source) {
 
 export default function loader(source) {
   const { endpoint } = getOptions(this);
+  const parser = require.resolve('http-functions-parser');
   const fileName = path.basename(this.resourcePath).replace(/\.(js|ts)$/, '');
-  const header = `function fetcher(methodName) {
-  return function () {
-    var args = Array.prototype.slice.call(arguments);
-    return fetch('${endpoint}', {
-      method: 'POST',
-      body: JSON.stringify({fileName: '${fileName}', methodName: methodName, args: args}),
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-    }).then(function (response) {
-      return response.json()
-    }).then(function (data) {
-      return data.result;
-    });
-  }
-}`;
+  const headers = [
+    `import { httpFunctionsFetcher } from '${parser}';`,
+    `var fetcher = httpFunctionsFetcher.bind(undefined, '${endpoint}', '${fileName}')`,
+  ];
   const functions = getExports(source).map(fn => {
     return `export var ${fn} = fetcher('${fn}');`;
   });
-  return [header, ...functions].join('\n\n');
+  return [...headers, ...functions].join('\n\n');
 }

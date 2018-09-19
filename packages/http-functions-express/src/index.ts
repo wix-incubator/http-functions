@@ -1,5 +1,13 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import * as util from 'util';
+
+export function httpFunctionResult(result) {
+  return {
+    type: 'httpFunctionResult',
+    result: util.isError(result) ? result.toString() : result,
+  };
+}
 
 export function httpFunctions(folder, test) {
   const files = fs
@@ -19,13 +27,21 @@ export function httpFunctions(folder, test) {
     const fn = files[fileName] && files[fileName][methodName];
 
     if (!fn) {
-      next(new Error('no such method'));
+      res.status(404).send(httpFunctionResult(new Error('no such method')));
     } else if (!Array.isArray(req.body.args)) {
-      next(new Error('invalid arguments'));
+      res.status(400).send(httpFunctionResult(new Error('invalid arguments')));
     } else {
       fn.apply({ req, res }, req.body.args)
-        .then(result => res.send({ result }))
-        .catch(error => next(error));
+        .then(result => {
+          if (!res.headersSent) {
+            res.send(httpFunctionResult(result));
+          }
+        })
+        .catch(result => {
+          if (!res.headersSent) {
+            res.status(500).send(httpFunctionResult(result));
+          }
+        });
     }
   };
 }
