@@ -30,6 +30,18 @@ describe('http-functions-example', () => {
     const page = await browser.newPage();
     await page.goto(`http://localhost:${process.env.PORT}/`);
     page.on('console', msg => logs.push(msg.text()));
+    page.on('requestfailed', request => {
+      console.log('requestfailed:', request.url());
+      console.log('failure:', request.failure().errorText);
+      console.log('headers:', request.headers());
+      console.log('post:', request.postData());
+      console.log('resource:', request.resourceType());
+    });
+    page.on('response', async response => {
+      console.log('response:', response.url());
+      console.log('status:', response.status());
+      console.log('text:', await response.text());
+    });
     await page.click('#sign');
     expect(logs).to.eql([
       'http function signature.web/sign',
