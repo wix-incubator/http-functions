@@ -6,7 +6,7 @@ export function serialize(result, context = {}) {
   return handler ? handler.toJson(result, context) : result;
 }
 
-function deserialize(result) {
+export function deserialize(result) {
   const handler = result && handlers.find(h => h.type === result.type);
   return handler ? handler.fromJson(result) : result;
 }

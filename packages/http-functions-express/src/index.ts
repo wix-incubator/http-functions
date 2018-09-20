@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { Writable } from 'stream';
-import { serialize } from 'http-functions-parser';
+import { serialize, deserialize } from 'http-functions-parser';
 
 function inMemoryStream(label, arr) {
   return new Writable({
@@ -63,7 +63,7 @@ export function httpFunctions(
         .status(400)
         .send(httpFunctionResult(new Error('invalid arguments'), context));
     } else {
-      fn.apply(context, req.body.args)
+      fn.apply(context, deserialize(req.body.args))
         .then(result => {
           if (!res.headersSent) {
             res.send(httpFunctionResult(result, context));
