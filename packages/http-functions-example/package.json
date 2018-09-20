@@ -1,7 +1,7 @@
 {
   "name": "http-functions-example",
   "version": "1.0.8",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "private": true,
   "author": {
     "name": "Shahar Talmi",

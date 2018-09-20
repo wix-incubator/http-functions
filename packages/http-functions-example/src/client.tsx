@@ -20,7 +20,9 @@ class App extends React.Component {
         <button id="sign" onClick={() => this.sign()}>
           Sign
         </button>
-        <span id="signature">{this.state.signature}</span>
+        {this.state.signature ? (
+          <span id="signature">{this.state.signature}</span>
+        ) : null}
       </div>
     );
   }

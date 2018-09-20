@@ -1,4 +1,4 @@
-# http-functions
+# http-functions &middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/wix-incubator/http-functions/blob/master/LICENSE) [![Build Status](https://travis-ci.org/wix-incubator/http-functions.svg?branch=master)](https://travis-ci.org/wix-incubator/http-functions)
 
 Seamlessly invoke methods on the server from your client code
 
