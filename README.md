@@ -116,7 +116,7 @@ On the server it is a simple function call. On the client it is a seamless http 
  * The `.web.js` extension and the `backend` folder are just a configuration setup we use as best practice to make it clear that this file contains http functions. It is not mandatory in any way and you can decide on your own convention if you like.
  * The express [request](https://expressjs.com/en/api.html#req) and [response](https://expressjs.com/en/api.html#res) objects are still available for you as `this.req` and `this.res` in the function. This can be useful in case you want for example to access the request headers via `this.req.headers` or in case you want to change response status via `this.res.status(404)`.
  * You can optionally print debug logs using `this.console` in your http function. The nice thing about this is that anything you print using `this.console` will be visible in your browser console! `this.console` is a standard [Console](https://nodejs.org/api/console.html) object, just like the global `console`, except that it sends the logs back to the client instead of writing them to some hard to reach log file on the server. Feel free to use any method you like, including things like [console.table()](https://nodejs.org/api/console.html#console_console_table_tabulardata_properties) and [console.time()](https://nodejs.org/api/console.html#console_console_time_label). Feel free to even use colors with libraries such as [chalk](https://github.com/chalk/chalk), they will be passed along to the browser as well.
- * You can optionally add more things that will be available on `this` inside the http function (by default we have `this.req`, `this.res` and `this.console`). This can done using an optional third parameter you can pass to the express middleware, for example:
+ * You can optionally add more things that will be available on `this` inside the http function (by default we have `this.req`, `this.res` and `this.console`). This can done using an optional third parameter you can pass (aka `contextBuilder`) to the express middleware, for example:
 ```js
 import * as path from 'path';
 import * as express from 'express';
@@ -130,6 +130,8 @@ express()
   .listen(3000);
 ```
 (in this example `this.userId` in all http functions will include the user id your specific logic extracted from the request headers)
+ * As you might notice, exceptions are seamlessly transferred back to the client as well. When an exception is thrown on the server side, it is passed back to the client as the value of the rejected promise. The exception includes the stack trace of the server, which can be pretty useful (try to do `console.log(e.toString(), e.stack)` in a caught exception in the client).
+ * If you don't like the fact that the stack trace is returned to the client and would like to avoid it from security reasons or whatnot, simply add a `contextBuilder` as described above and have it return `{ stack: false }`.
  * Thanks to webpack chaining mechanism, it is easy to support http functions in typescript, for example. Just do something like:
 ```js
 {

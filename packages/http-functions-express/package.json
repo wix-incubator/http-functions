@@ -38,5 +38,8 @@
   },
   "yoshi": {
     "hmr": "auto"
+  },
+  "dependencies": {
+    "http-functions-parser": "^1.0.9"
   }
 }

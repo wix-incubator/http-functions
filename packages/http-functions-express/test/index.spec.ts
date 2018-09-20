@@ -12,6 +12,10 @@ function invoke(fileName, methodName, args, headers?) {
   );
 }
 
+function toResult(data, context = {}) {
+  return httpFunctionResult(data, { stack: false, ...context });
+}
+
 describe('http-functions-express', () => {
   let server;
 
@@ -22,7 +26,7 @@ describe('http-functions-express', () => {
       .use(
         '/_functions',
         httpFunctions(folder, /\.web\.js$/, (req, res) => {
-          return { yo: req.headers.yo };
+          return { yo: req.headers.yo, stack: false };
         }),
       )
       .listen(3000);
@@ -32,25 +36,25 @@ describe('http-functions-express', () => {
 
   it('should invoke the web method', async () => {
     const { data } = await invoke('math.web', 'sum', [1, 2, 3]);
-    expect(data).to.eql(httpFunctionResult(6));
+    expect(data).to.eql(toResult(6));
   });
 
   it('should handle errors in web method', async () => {
     const { status, data } = await invoke('math.web', 'divide', [10, 0]);
     expect(status).to.eql(500);
-    expect(data).to.eql(httpFunctionResult(new Error('division by zero')));
+    expect(data).to.eql(toResult(new Error('division by zero')));
   });
 
   it('should get error if method does not exist', async () => {
     const { status, data } = await invoke('math.web', 'xxx', [10, 0]);
     expect(status).to.eql(404);
-    expect(data).to.eql(httpFunctionResult(new Error('no such method')));
+    expect(data).to.eql(toResult(new Error('no such method')));
   });
 
   it('should get error if file does not exist', async () => {
     const { status, data } = await invoke('xxx.web', 'divide', [10, 0]);
     expect(status).to.eql(404);
-    expect(data).to.eql(httpFunctionResult(new Error('no such method')));
+    expect(data).to.eql(toResult(new Error('no such method')));
   });
 
   it('should get error if not post method', async () => {
@@ -60,13 +64,13 @@ describe('http-functions-express', () => {
       { validateStatus: () => true },
     );
     expect(status).to.eql(404);
-    expect(data).to.eql(httpFunctionResult(new Error('no such method')));
+    expect(data).to.eql(toResult(new Error('no such method')));
   });
 
   it('should get error if args is not an array', async () => {
     const { status, data } = await invoke('math.web', 'sum', 0);
     expect(status).to.eql(400);
-    expect(data).to.eql(httpFunctionResult(new Error('invalid arguments')));
+    expect(data).to.eql(toResult(new Error('invalid arguments')));
   });
 
   it('should pass req on the context', async () => {
@@ -78,13 +82,13 @@ describe('http-functions-express', () => {
   it('should pass res on the context', async () => {
     const { status, data } = await invoke('context.web', 'status', [201]);
     expect(status).to.eql(201);
-    expect(data).to.eql(httpFunctionResult('status 201'));
+    expect(data).to.eql(toResult('status 201'));
   });
 
   it('should pass custom context', async () => {
     const headers = { yo: 'hello' };
     const { data } = await invoke('context.web', 'yo', [], headers);
-    expect(data).to.eql(httpFunctionResult('hello'));
+    expect(data).to.eql(toResult('hello'));
   });
 
   it('should allow function to handle response sending', async () => {
@@ -95,7 +99,7 @@ describe('http-functions-express', () => {
   it('should send logs back to client', async () => {
     const { data } = await invoke('context.web', 'log', ['hello']);
     expect(data).to.eql(
-      httpFunctionResult('hello', {
+      toResult('hello', {
         logs: [
           { label: 'log', chunk: 'log: hello' },
           { label: 'error', chunk: 'err: hello' },

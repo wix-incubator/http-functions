@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import * as util from 'util';
 import { Writable } from 'stream';
+import { serialize } from 'http-functions-parser';
 
 function inMemoryStream(label, arr) {
   return new Writable({
@@ -12,11 +12,11 @@ function inMemoryStream(label, arr) {
   });
 }
 
-export function httpFunctionResult(result, context?) {
+export function httpFunctionResult(result, context) {
   return {
     type: 'httpFunctionResult',
-    logs: context ? context.logs : [],
-    result: util.isError(result) ? result.toString() : result,
+    logs: context && context.logs ? context.logs : [],
+    result: serialize(result, context),
   };
 }
 
@@ -25,7 +25,7 @@ function defaultContextBuilder(req, res) {
   const stdout = inMemoryStream('log', logs);
   const stderr = inMemoryStream('error', logs);
   const aConsole = new console.Console(stdout, stderr);
-  return { req, res, console: aConsole, logs };
+  return { req, res, console: aConsole, logs, stack: true };
 }
 
 export function httpFunctions(
@@ -55,9 +55,13 @@ export function httpFunctions(
     };
 
     if (!fn) {
-      res.status(404).send(httpFunctionResult(new Error('no such method')));
+      res
+        .status(404)
+        .send(httpFunctionResult(new Error('no such method'), context));
     } else if (!Array.isArray(req.body.args)) {
-      res.status(400).send(httpFunctionResult(new Error('invalid arguments')));
+      res
+        .status(400)
+        .send(httpFunctionResult(new Error('invalid arguments'), context));
     } else {
       fn.apply(context, req.body.args)
         .then(result => {

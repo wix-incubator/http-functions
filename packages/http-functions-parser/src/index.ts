@@ -1,4 +1,15 @@
 import { parse as parseAnsiColor } from 'ansicolor';
+import { handlers } from './handlers';
+
+export function serialize(result, context = {}) {
+  const handler = result && handlers.find(h => h.test(result));
+  return handler ? handler.toJson(result, context) : result;
+}
+
+function deserialize(result) {
+  const handler = result && handlers.find(h => h.type === result.type);
+  return handler ? handler.fromJson(result) : result;
+}
 
 function colorize(str) {
   const args = parseAnsiColor(str).asChromeConsoleLogArguments;
@@ -18,7 +29,7 @@ function parse(data, fileName, methodName) {
       });
       console.groupEnd();
     }
-    return data.result;
+    return deserialize(data.result);
   } else {
     return data;
   }
@@ -38,10 +49,10 @@ export function httpFunctionsFetcher(endpoint, fileName, methodName) {
           } else {
             data = JSON.parse(xhr.responseText);
           }
-          if (xhr.status >= 400) {
-            reject(parse(data, fileName, methodName));
-          } else {
+          if (xhr.status >= 200 && xhr.status < 300) {
             resolve(parse(data, fileName, methodName));
+          } else {
+            reject(parse(data, fileName, methodName));
           }
         }
       };
@@ -54,7 +65,7 @@ export function httpFunctionsFetcher(endpoint, fileName, methodName) {
       xhr.open('POST', `${endpoint}/${fileName}/${methodName}`, true);
       xhr.setRequestHeader('Accept', 'application/json');
       xhr.setRequestHeader('Content-Type', 'application/json');
-      xhr.send(JSON.stringify({ args }));
+      xhr.send(JSON.stringify(serialize({ args })));
     });
   };
 }
