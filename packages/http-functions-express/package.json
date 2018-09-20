@@ -1,6 +1,6 @@
 {
   "name": "http-functions-express",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "license": "MIT",
   "author": {
     "name": "Shahar Talmi",
@@ -40,6 +40,6 @@
     "hmr": "auto"
   },
   "dependencies": {
-    "http-functions-parser": "^1.0.10"
+    "http-functions-parser": "^1.0.11"
   }
 }
