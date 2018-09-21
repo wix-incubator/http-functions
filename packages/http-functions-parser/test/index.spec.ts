@@ -42,10 +42,9 @@ describe('http-functions-parser', () => {
   });
 
   it('should serialize objects that deeply contain a date', () => {
-    const { date } = fullCycle({
-      date: new Date(Date.UTC(1981, 12, 27, 1, 2, 3, 4)),
-    });
+    const utc = Date.UTC(1981, 12, 27, 1, 2, 3, 4);
+    const { date } = fullCycle({ date: new Date(utc) });
     expect(date).to.be.instanceof(Date);
-    expect(date.getTime()).to.eql(Date.UTC(1981, 12, 27, 1, 2, 3, 4));
+    expect(date.getTime()).to.eql(utc);
   });
 });
