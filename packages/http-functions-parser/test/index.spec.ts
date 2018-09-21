@@ -1,8 +1,8 @@
 import { expect } from 'chai';
-import { serialize, deserialize } from '../src';
+import { toJSON, fromJSON } from '../src';
 
 function fullCycle(obj, options?) {
-  return deserialize(JSON.parse(JSON.stringify(serialize(obj, options))));
+  return fromJSON(JSON.parse(JSON.stringify(toJSON(obj, options))));
 }
 
 function produceError() {
@@ -41,10 +41,19 @@ describe('http-functions-parser', () => {
     expect(error).to.be.instanceof(Error);
   });
 
-  it('should serialize objects that deeply contain a date', () => {
+  it('should serialize dates', () => {
     const utc = Date.UTC(1981, 12, 27, 1, 2, 3, 4);
-    const { date } = fullCycle({ date: new Date(utc) });
+    const date = fullCycle(new Date(utc));
     expect(date).to.be.instanceof(Date);
     expect(date.getTime()).to.eql(utc);
+  });
+
+  it('should serialize regexp', () => {
+    let regexp = /abc/gi;
+    expect(regexp.exec('_ABC_')).to.eql(['ABC']); //lastIndex 0 => 4
+
+    regexp = fullCycle(regexp);
+    expect(regexp.exec('_ABC_')).to.eql(null); //lastIndex 4 => 0
+    expect(regexp.exec('_ABC_')).to.eql(['ABC']); //lastIndex 0 => 4
   });
 });

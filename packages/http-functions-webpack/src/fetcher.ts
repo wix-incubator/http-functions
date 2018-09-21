@@ -1,4 +1,4 @@
-import { serialize, deserialize } from 'http-functions-parser';
+import { toJSON, fromJSON } from 'http-functions-parser';
 import { parse as parseAnsiColor } from 'ansicolor';
 
 function colorize(str) {
@@ -19,7 +19,7 @@ function parse(data, fileName, methodName) {
       });
       console.groupEnd();
     }
-    return deserialize(data.result);
+    return fromJSON(data.result);
   } else {
     return data;
   }
@@ -55,7 +55,7 @@ export function httpFunctionsFetcher(endpoint, fileName, methodName) {
       xhr.open('POST', `${endpoint}/${fileName}/${methodName}`, true);
       xhr.setRequestHeader('Accept', 'application/json');
       xhr.setRequestHeader('Content-Type', 'application/json');
-      xhr.send(JSON.stringify(serialize({ args })));
+      xhr.send(JSON.stringify(toJSON({ args })));
     });
   };
 }

@@ -1,38 +1,29 @@
-import { toObject, fromObject } from 'errio';
+import { convertors } from './convertors';
 import * as cloneDeepWith from 'lodash.clonedeepwith';
 
 const classTag = '___http-functions-class___';
-
-class SerializableError {
-  error;
-  options;
-  constructor(error, options) {
-    this.error = error;
-    this.options = options;
-  }
-  toJSON() {
-    return toObject(this.error, this.options);
-  }
-  static fromJSON(obj) {
-    return fromObject(obj);
-  }
-}
-
 const globalScope: any = typeof global === 'undefined' ? window : global;
-const localScope = { SerializableError };
+const localScope = convertors.reduce(
+  (scope, { to }) => ({
+    ...scope,
+    [to.prototype.constructor.name]: to,
+  }),
+  {},
+);
 
-export function serialize(obj, options: any = {}) {
+export function toJSON(obj, options?: any) {
   return cloneDeepWith(obj, value => {
-    if (value instanceof Error) {
-      value = new SerializableError(value, { stack: options.stack !== false });
+    const convertor = convertors.find(({ from }) => value instanceof from);
+    if (convertor) {
+      value = new convertor.to(value, options);
     }
     if (value && typeof value.toJSON === 'function') {
-      return { json: value.toJSON(), [classTag]: value.constructor.name };
+      return { [classTag]: value.constructor.name, json: value.toJSON() };
     }
   });
 }
 
-export function deserialize(obj) {
+export function fromJSON(obj) {
   return cloneDeepWith(obj, value => {
     if (value && value[classTag]) {
       const cls = globalScope[value[classTag]] || localScope[value[classTag]];
