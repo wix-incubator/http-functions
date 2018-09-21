@@ -43,6 +43,10 @@
     "extends": "yoshi"
   },
   "yoshi": {
-    "hmr": "auto"
+    "hmr": "auto",
+    "externals": {
+      "react": "React",
+      "react-dom": "ReactDOM"
+    }
   }
 }

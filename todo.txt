@@ -1,5 +1,5 @@
-1) think about serializing things like dates, regexp, etc.
-2) think about how to handle execution timeout
-3) think if we want to handle permissions in this level, or is it higher level
-4) need to think about sanitizing stack traces (both in exception and console.trace)
-5) allow to control the endpoint in runtime instead of through webpack config (is it needed?)
+1) think about how to handle execution timeout
+2) think if we want to handle permissions in this level, or is it higher level
+3) need to think about sanitizing stack traces (both in exception and console.trace)
+4) allow to control the endpoint in runtime instead of through webpack config (is it needed?)
+5) csrf token support - how should it work? do we need to give the user an option to play with request before it goes out?

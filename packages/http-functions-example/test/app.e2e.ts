@@ -1,3 +1,5 @@
+import * as fs from 'fs';
+import * as path from 'path';
 import * as puppeteer from 'puppeteer';
 import { expect } from 'chai';
 
@@ -52,5 +54,12 @@ describe('http-functions-example', () => {
       ].join(''),
       'console.groupEnd',
     ]);
+  });
+
+  it('should be no more than 30K bundle', () => {
+    expect(
+      fs.statSync(path.resolve(__dirname, '../dist/statics/app.bundle.min.js'))
+        .size,
+    ).to.be.at.most(30000);
   });
 });

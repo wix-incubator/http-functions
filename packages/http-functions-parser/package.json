@@ -38,6 +38,7 @@
     "hmr": "auto"
   },
   "dependencies": {
-    "errio": "^1.2.2"
+    "errio": "^1.2.2",
+    "lodash.clonedeepwith": "^4.5.0"
   }
 }

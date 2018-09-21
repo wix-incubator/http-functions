@@ -23,7 +23,7 @@ function getExports(source) {
 
 export default function loader(source) {
   const { endpoint } = getOptions(this);
-  const parser = require.resolve('.');
+  const parser = require.resolve('./fetcher');
   const fileName = path.basename(this.resourcePath).replace(/\.(js|ts)$/, '');
   const headers = [
     `import { httpFunctionsFetcher } from '${parser}';`,
@@ -34,5 +34,3 @@ export default function loader(source) {
   });
   return [...headers, ...functions].join('\n\n');
 }
-
-export { httpFunctionsFetcher } from './fetcher';

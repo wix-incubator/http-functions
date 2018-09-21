@@ -10,7 +10,9 @@ const html = `
   </head>
   <body>
     <div id="root"></div>
-    <script src="http://localhost:3200/app.bundle.js"></script>
+    <script crossorigin src="https://unpkg.com/react@16.5.2/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16.5.2/umd/react-dom.production.min.js"></script>
+    <script crossorigin src="http://localhost:3200/app.bundle.js"></script>
   </body>
 </html>
 `;

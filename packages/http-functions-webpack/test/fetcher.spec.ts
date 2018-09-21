@@ -4,7 +4,7 @@ import { Writable } from 'stream';
 import { expect } from 'chai';
 import { JSDOM } from 'jsdom';
 import { httpFunctions } from 'http-functions-express';
-import { httpFunctionsFetcher } from '../src';
+import { httpFunctionsFetcher } from '../src/fetcher';
 
 declare const global: any;
 const { XMLHttpRequest } = new JSDOM('', {
@@ -27,8 +27,11 @@ async function hookConsole(fn) {
   const oldConsole = { ...global.console };
   const newConsole = new console.Console(stdout, stderr);
   Object.assign(global.console, newConsole);
-  await fn();
-  Object.assign(global.console, oldConsole);
+  try {
+    await fn();
+  } finally {
+    Object.assign(global.console, oldConsole);
+  }
   return logs;
 }
 

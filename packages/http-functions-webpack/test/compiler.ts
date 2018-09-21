@@ -7,6 +7,7 @@ export default (fixture): Promise<string> => {
     context: __dirname,
     entry: fixture,
     target: 'node',
+    mode: 'development',
     output: {
       path: path.resolve(__dirname),
       filename: bundle,
