@@ -1,6 +1,6 @@
 {
   "name": "http-functions-example",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "license": "MIT",
   "private": true,
   "author": {
@@ -17,7 +17,7 @@
     "release": "yoshi release"
   },
   "dependencies": {
-    "http-functions-express": "^1.0.11",
+    "http-functions-express": "^1.0.12",
     "react": "^16.5.1",
     "react-dom": "^16.5.1"
   },
@@ -29,7 +29,7 @@
     "@types/react": "~15.6.0",
     "@types/react-dom": "~15.5.0",
     "chai": "^4.1.2",
-    "http-functions-webpack": "^1.0.11",
+    "http-functions-webpack": "^1.0.12",
     "husky": "~0.14.0",
     "lint-staged": "^7.2.2",
     "puppeteer": "^1.1.0",
