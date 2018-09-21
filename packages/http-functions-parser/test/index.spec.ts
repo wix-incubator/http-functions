@@ -46,5 +46,6 @@ describe('http-functions-parser', () => {
       date: new Date(Date.UTC(1981, 12, 27, 1, 2, 3, 4)),
     });
     expect(date).to.be.instanceof(Date);
+    expect(date.getTime()).to.eql(Date.UTC(1981, 12, 27, 1, 2, 3, 4));
   });
 });
