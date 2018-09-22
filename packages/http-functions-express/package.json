@@ -18,11 +18,9 @@
   },
   "scripts": {
     "start": "yoshi start",
-    "precommit": "lint-staged",
     "pretest": "yoshi build",
     "test": "yoshi test",
-    "posttest": "yoshi lint",
-    "release": "yoshi release"
+    "posttest": "yoshi lint"
   },
   "devDependencies": {
     "@types/chai": "^4.1.5",
@@ -31,16 +29,8 @@
     "axios": "^0.18.0",
     "chai": "^4.1.2",
     "express": "^4.16.3",
-    "husky": "^0.14.3",
-    "lint-staged": "^7.2.2",
     "typescript": "^3.0.3",
     "yoshi": "^3.0.0"
-  },
-  "lint-staged": {
-    "*.{js,ts}": "yoshi lint"
-  },
-  "yoshi": {
-    "hmr": "auto"
   },
   "dependencies": {
     "http-functions-parser": "^1.0.12"

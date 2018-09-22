@@ -4,3 +4,4 @@
 4) allow to control the endpoint in runtime instead of through webpack config (is it needed?)
 5) csrf token support - how should it work? do we need to give the user an option to play with request before it goes out?
 6) references (dup json) and circular
+7) working with files

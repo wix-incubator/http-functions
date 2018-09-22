@@ -10,11 +10,9 @@
   "scripts": {
     "postinstall": "node patch-yoshi.js",
     "start": "yoshi start",
-    "precommit": "lint-staged",
     "pretest": "yoshi build",
     "test": "yoshi test",
-    "posttest": "yoshi lint",
-    "release": "yoshi release"
+    "posttest": "yoshi lint"
   },
   "dependencies": {
     "http-functions-express": "^1.0.12",
@@ -31,14 +29,9 @@
     "@types/react-dom": "^16.0.7",
     "chai": "^4.1.2",
     "http-functions-webpack": "^1.0.12",
-    "husky": "^0.14.3",
-    "lint-staged": "^7.2.2",
     "puppeteer": "^1.1.0",
     "typescript": "^3.0.3",
     "yoshi": "^3.0.0"
-  },
-  "lint-staged": {
-    "*.{js,ts,tsx,scss,less}": "yoshi lint"
   },
   "eslintConfig": {
     "extends": "yoshi"
