@@ -11,6 +11,13 @@ const localScope = convertors.reduce(
   {},
 );
 
+export function addDataType(cls, from?) {
+  localScope[cls.prototype.constructor.name] = cls;
+  if (from) {
+    convertors.push({ from, to: cls });
+  }
+}
+
 export function toJSON(obj, options?: any) {
   return cloneDeepWith(obj, value => {
     const convertor = convertors.find(({ from }) => value instanceof from);

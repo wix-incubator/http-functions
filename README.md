@@ -132,6 +132,7 @@ express()
 (in this example `this.userId` in all http functions will include the user id your specific logic extracted from the request headers)
  * As you might notice, exceptions are seamlessly transferred back to the client as well. When an exception is thrown on the server side, it is passed back to the client as the value of the rejected promise. The exception includes the stack trace of the server, which can be pretty useful (try to do `console.log(e.toString(), e.stack)` in a caught exception in the client).
  * If you don't like the fact that the stack trace is returned to the client and would like to avoid it from security reasons or whatnot, simply add a `contextBuilder` as described above and have it return `{ stack: false }`.
+ * As you may realize by now, the function arguments are passed to the server and the return value is passed back to the client using json protocol, which means there are some limitations to what you can pass there. The json protocol supports out of the box in the following data types: Number, String, Boolean, Array, Object & Null. Luckily we are using an higher level [serializer](https://github.com/wix-incubator/http-functions/tree/master/packages/http-functions-parser) (feel free to read more about it), which adds support for for Date, RegExp & Error objects as well.
  * Thanks to webpack chaining mechanism, it is easy to support http functions in typescript, for example. Just do something like:
 ```js
 {

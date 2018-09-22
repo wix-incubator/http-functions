@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { toJSON, fromJSON } from '../src';
+import { toJSON, fromJSON, addDataType } from '../src';
 
 function fullCycle(obj, options?) {
   return fromJSON(JSON.parse(JSON.stringify(toJSON(obj, options))));
@@ -55,5 +55,39 @@ describe('http-functions-parser', () => {
     regexp = fullCycle(regexp);
     expect(regexp.exec('_ABC_')).to.eql(null); //lastIndex 4 => 0
     expect(regexp.exec('_ABC_')).to.eql(['ABC']); //lastIndex 0 => 4
+  });
+
+  it('should allow adding custom data types', () => {
+    class Person {
+      constructor(public firstName, public lastName) {}
+      fullName = () => `${this.firstName} ${this.lastName}`;
+      toJSON = () => ({ firstName: this.firstName, lastName: this.lastName });
+      static fromJSON = ({ firstName, lastName }) =>
+        new Person(firstName, lastName);
+    }
+
+    const aPerson = new Person('Shahar', 'Talmi');
+    addDataType(Person);
+    expect(fullCycle(aPerson).fullName()).to.eql('Shahar Talmi');
+  });
+
+  it('should allow adding custom serializable data types', () => {
+    class Person {
+      constructor(public firstName, public lastName) {}
+      fullName = () => `${this.firstName} ${this.lastName}`;
+    }
+    class SerializablePerson {
+      constructor(public person) {}
+      toJSON = () => ({
+        firstName: this.person.firstName,
+        lastName: this.person.lastName,
+      });
+      static fromJSON = ({ firstName, lastName }) =>
+        new Person(firstName, lastName);
+    }
+
+    const aPerson = new Person('Shahar', 'Talmi');
+    addDataType(SerializablePerson, Person);
+    expect(fullCycle(aPerson).fullName()).to.eql('Shahar Talmi');
   });
 });
