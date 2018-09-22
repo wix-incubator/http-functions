@@ -9,3 +9,4 @@ maven
 *.iml
 test/e2e/screenshots
 .yo-rc.json
+package-lock.json
