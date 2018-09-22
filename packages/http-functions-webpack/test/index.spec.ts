@@ -1,7 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as express from 'express';
-import { Writable } from 'stream';
 import { expect } from 'chai';
 import compiler from './compiler';
 import { httpFunctions } from 'http-functions-express';

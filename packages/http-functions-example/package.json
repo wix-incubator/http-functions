@@ -15,6 +15,7 @@
     "posttest": "yoshi lint"
   },
   "dependencies": {
+    "express": "^4.16.3",
     "http-functions-express": "^1.0.12",
     "react": "^16.5.1",
     "react-dom": "^16.5.1"
