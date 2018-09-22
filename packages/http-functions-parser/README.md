@@ -106,7 +106,7 @@ const { addDataType } = require('http-functions-parser');
 addDataType(Person);
 ```
 
-Thant's it! Now you can do something like the following and it will work like a charm:
+That's it! Now you can do something like the following and it will work like a charm:
 ```js
 const { toJSON, fromJSON, addDataType } = require('http-functions-parser');
 
