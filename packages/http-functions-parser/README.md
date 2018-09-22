@@ -1,6 +1,6 @@
 # http-functions-parser &middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/wix-incubator/http-functions/blob/master/LICENSE) [![Build Status](https://travis-ci.org/wix-incubator/http-functions.svg?branch=master)](https://travis-ci.org/wix-incubator/http-functions)
 
-A powerful object to json serializer/deserializer. In addition to the standard json data types (Number, String, Boolean, Array, Object & Null), this module helps you also to serialize & deserialize more advanced data types such as: Date, RegExp  & Error objects.
+A powerful object to json serializer/deserializer. In addition to the standard json data types (Number, String, Boolean, Array, Object & Null), this module helps you also to serialize & deserialize more advanced data types such as: Date, RegExp  & Error objects. In addition, it knows how to serialize circular references correctly and minify duplication in case of internal references.
 
 ## How to use
 
@@ -147,7 +147,62 @@ const newObj = fromJSON(JSON.parse(str));
 console.log(newObj.aPerson.fullName()); //Shahar Talmi
 ```
 
+## Circular references and internal references
+
+A pretty nice thing about `http-functions-parser` is that it actually handles circular references and internal references very easily. Take for example the following snippet:
+
+```js
+const data = { a: { b: 1 }, c: { d: 2, e: null }, f: null };
+data.f = data.a; // internal reference
+console.log(JSON.stringify(data)); // {"a":{"b":1},"c":{"d":2,"e":null},"f":{"b":1}}
+data.c.e = data.c; //circular reference
+console.log(JSON.stringify(data)); // TypeError: Converting circular structure to JSON
+```
+
+As you can see, the first stringify contains duplicate information since `data.a` and `data.f` contain the same object and the second stringify throws an exception because of the circular structure. How will `http-functions-parser` handle this?
+
+```js
+const { toJSON } = require('http-functions-parser');
+
+const data = { a: { b: 1 }, c: { d: 2, e: null }, f: null };
+data.f = data.a; // internal reference
+console.log(JSON.stringify(toJSON(data), null, 2));
+// {
+//   "a": {
+//     "b": 1,
+//     "___http-function-reference___": "REF_1"
+//   },
+//   "c": {
+//     "d": 2,
+//     "e": null
+//   },
+//   "f": {
+//     "___http-function-pointer___": "REF_1"
+//   }
+// }
+data.c.e = data.c; //circular reference
+console.log(JSON.stringify(toJSON(data), null, 2));
+// {
+//   "a": {
+//     "b": 1,
+//     "___http-function-reference___": "REF_3"
+//   },
+//   "c": {
+//     "d": 2,
+//     "___http-function-reference___": "REF_2",
+//     "e": {
+//       "___http-function-pointer___": "REF_2"
+//     }
+//   },
+//   "f": {
+//     "___http-function-pointer___": "REF_3"
+//   }
+// }
+```
+
+This works nicely since the serialized object no longer contains internal/circular references. Instead, we added a special `___http-function-reference___` notation for idetifying objects that are being referenced and a special notation `___http-function-pointer___` where we are supposed to have a reference to another object. This way, for example, we know that `data.f` which contains pointer `REF_3` is supposed to be referencing `data.a` which contains the reference tag `REF_3`. When `fromJSON` parses this json, it recreates the needed references and produces an object identical to `data` which was serialized.
+
 ## Notes
 
- * Instead of implementing `fromJSON` as a static method, you can optionally support getting the json object in your constructor.
+ * Instead of implementing `fromJSON` as a static method in your custom data type, you can optionally support getting the json object in your constructor.
  * In case you want to serialize/deserialize a data type which you don't own and can't add `toJSON`/`fromJSON` to it, you can create a class that gets that type in the constructor and pass the data type as second parameter to `addDataType` function. Take a look in the source code on how we support `RegExp` serialization if you need a good example.

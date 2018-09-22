@@ -90,4 +90,18 @@ describe('http-functions-parser', () => {
     addDataType(SerializablePerson, Person);
     expect(fullCycle(aPerson).fullName()).to.eql('Shahar Talmi');
   });
+
+  it('should serialize circular references', () => {
+    const data = {
+      a: 1,
+      b: 'str',
+      c: { d: 2, e: 'str', f: null },
+      g: { h: 3 },
+      i: [],
+    };
+    data.c.f = data.c;
+    data.i.push(data.g);
+    data.i.push(data.c);
+    expect(fullCycle(data)).to.eql(data);
+  });
 });

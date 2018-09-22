@@ -1,6 +1,7 @@
 {
   "extends": "tslint-config-yoshi",
   "rules": {
-    "no-unnecessary-else": false
+    "no-unnecessary-else": false,
+    "no-dynamic-delete": false
   }
 }
