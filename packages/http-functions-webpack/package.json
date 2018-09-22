@@ -41,7 +41,7 @@
     "@babel/parser": "^7.0.0",
     "@babel/traverse": "^7.0.0",
     "ansicolor": "^1.1.77",
-    "http-functions-parser": "^1.0.12",
+    "javascript-serializer": "^1.0.0",
     "loader-utils": "^1.1.0"
   }
 }

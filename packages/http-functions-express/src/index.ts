@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { Writable } from 'stream';
-import { toJSON, fromJSON } from 'http-functions-parser';
+import { toJSON, fromJSON } from 'javascript-serializer';
 
 function inMemoryStream(label, arr) {
   return new Writable({

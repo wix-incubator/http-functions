@@ -1,4 +1,4 @@
-import { toJSON, fromJSON } from 'http-functions-parser';
+import { toJSON, fromJSON } from 'javascript-serializer';
 import { parse as parseAnsiColor } from 'ansicolor';
 
 function colorize(str) {
