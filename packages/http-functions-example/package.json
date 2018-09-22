@@ -1,6 +1,6 @@
 {
   "name": "http-functions-example",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "license": "MIT",
   "private": true,
   "author": {
@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "express": "^4.16.3",
-    "http-functions-express": "^1.0.12",
+    "http-functions-express": "^1.0.13",
     "react": "^16.5.1",
     "react-dom": "^16.5.1"
   },
@@ -29,7 +29,7 @@
     "@types/react": "^16.4.14",
     "@types/react-dom": "^16.0.7",
     "chai": "^4.1.2",
-    "http-functions-webpack": "^1.0.12",
+    "http-functions-webpack": "^1.0.13",
     "puppeteer": "^1.1.0",
     "typescript": "^3.0.3",
     "yoshi": "^3.0.0"
