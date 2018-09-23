@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "test": "lerna run test",
-    "postinstall": "lerna bootstrap --hoist",
+    "postinstall": "lerna bootstrap --hoist --no-ci",
     "release": "lerna run release"
   },
   "devDependencies": {
