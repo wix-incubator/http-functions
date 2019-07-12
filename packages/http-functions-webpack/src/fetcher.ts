@@ -1,6 +1,6 @@
 import { toJSON, fromJSON } from 'javascript-serializer';
 import { parse as parseAnsiColor } from 'ansicolor';
-
+import { getCSRFToken } from './csrf';
 function colorize(str) {
   const args = parseAnsiColor(str).asChromeConsoleLogArguments;
   if (args.length === 2 && args[1] === '') {
@@ -55,6 +55,7 @@ export function httpFunctionsFetcher(endpoint, fileName, methodName) {
       xhr.open('POST', `${endpoint}/${fileName}/${methodName}`, true);
       xhr.setRequestHeader('Accept', 'application/json');
       xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.setRequestHeader('x-xsrf-token', getCSRFToken());
       xhr.send(JSON.stringify(toJSON({ args })));
     });
   };

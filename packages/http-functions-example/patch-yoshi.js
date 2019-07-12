@@ -5,7 +5,7 @@ const content = fs.readFileSync(fileName).toString();
 const patch = `
     rules: [
       {
-        test: /\\.web\\.(js|ts)$/,
+        test: /\.web\.(js|ts)$/,
         use: [
           {
             loader: 'http-functions-webpack',
