@@ -8,7 +8,7 @@
     "email": "shahart@wix.com"
   },
   "scripts": {
-    "postinstall": "",
+    "postinstall": "node patch-yoshi.js",
     "start": "yoshi start",
     "pretest": "yoshi build",
     "test": "yoshi test",
