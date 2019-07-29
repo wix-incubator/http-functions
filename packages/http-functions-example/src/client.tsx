@@ -1,7 +1,8 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { sign } from './backend/signature.web';
-
+import httpFunctionsConfig from 'http-functions-config';
+httpFunctionsConfig.headers['x-yosi-header'] = 'yosi';
 class App extends React.Component {
   state = { signature: '', message: '' };
 

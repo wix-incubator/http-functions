@@ -1,5 +1,5 @@
 {
-  "name": "http-functions-express",
+  "name": "http-functions-config",
   "version": "1.0.13",
   "license": "MIT",
   "author": {
@@ -8,7 +8,7 @@
   },
   "main": "dist/src/index.js",
   "module": "dist/es/src/index.js",
-  "repository": "https://github.com/wix-incubator/http-functions/tree/master/packages/http-functions-express",
+  "repository": "https://github.com/wix-incubator/http-functions/tree/master/packages/http-functions-config",
   "sideEffects": false,
   "files": [
     "dist"
@@ -27,18 +27,20 @@
     "@types/express": "^4.16.0",
     "@types/mocha": "^5.2.5",
     "@types/node": "^8.0.0",
-    "axios": "^0.18.0",
     "chai": "^4.1.2",
+    "chalk": "^2.4.1",
     "express": "^4.16.3",
+    "jsdom": "^12.0.0",
+    "memory-fs": "^0.4.1",
     "typescript": "^3.0.3",
+    "webpack": "^4.19.0",
     "yoshi": "^3.0.0"
   },
   "dependencies": {
-    "javascript-serializer": "^1.0.0"
-  },
-  "yoshi": {
-    "resolveAlias": {
-      "http-functions-config": "./node_modules"
-    }
+    "@babel/parser": "^7.0.0",
+    "@babel/traverse": "^7.0.0",
+    "ansicolor": "^1.1.77",
+    "javascript-serializer": "^1.0.0",
+    "loader-utils": "^1.1.0"
   }
 }
